@@ -10,6 +10,10 @@ import com.example.testmornhouse.databinding.FragmentFactAboutNumberBinding
 class FactAboutNumberFragment : Fragment() {
 
     companion object {
+
+        const val NUMBER_ARG = "NUMBER"
+        const val DESCRIPTION_ARG = "DESCRIPTION"
+
         fun newInstance() = FactAboutNumberFragment()
     }
 
@@ -17,12 +21,14 @@ class FactAboutNumberFragment : Fragment() {
     private lateinit var binding: FragmentFactAboutNumberBinding
 
     private var givenNumber = ""
+    private var description = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val bundle = this.arguments
 
-        givenNumber = bundle?.getString("NUMBER").toString()
+        givenNumber = bundle?.getString(NUMBER_ARG).toString()
+        description = bundle?.getString(DESCRIPTION_ARG).toString()
     }
 
     override fun onCreateView(
@@ -33,6 +39,7 @@ class FactAboutNumberFragment : Fragment() {
 
         binding = FragmentFactAboutNumberBinding.inflate(inflater)
         binding.tvGivenNumber.text = givenNumber
+        binding.tvDescription.text = description
 
         return binding.root
     }
