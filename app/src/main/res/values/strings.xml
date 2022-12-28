@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TestMornhouse</string>
+    <string name="txt_btn_get_num_fact">Get fact!</string>
+    <string name="txt_btn_get_random_num_fact">Get fact about random number</string>
+    <string name="hint_enter_number">Enter a number</string>
+    <string name="txt_description">Description:</string>
+</resources>
