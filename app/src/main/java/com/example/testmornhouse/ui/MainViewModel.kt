@@ -1,4 +1,4 @@
-package com.example.testmornhouse
+package com.example.testmornhouse.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,11 +11,13 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val numbersRepository: NumbersRepository) : ViewModel() {
+class MainViewModel @Inject constructor(
+    private val numbersRepository: NumbersRepository
+    ) : ViewModel() {
 
-    private var numberFactsHistoryMutableList = MutableLiveData<NumberFact>()
+    private var obtainedNumberFactMutable = MutableLiveData<NumberFact>()
 
-    var numberFactsHistoryList: LiveData<NumberFact> = numberFactsHistoryMutableList
+    var obtainedNumberFact: LiveData<NumberFact> = obtainedNumberFactMutable
 
     fun getFactAboutNumber(givenNumber: Int) {
         viewModelScope.launch {
@@ -27,7 +29,7 @@ class MainViewModel @Inject constructor(private val numbersRepository: NumbersRe
                 val newNumberFact = NumberFact(givenNumber, obtainedFact.await())
 
                 withContext(Dispatchers.Main){
-                    numberFactsHistoryMutableList.value = newNumberFact
+                    obtainedNumberFactMutable.value = newNumberFact
                 }
             }
         }

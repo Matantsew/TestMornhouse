@@ -1,6 +1,5 @@
-package com.example.testmornhouse
+package com.example.testmornhouse.ui
 
 interface IMainActivity {
-
     fun getFactAboutGivenNumber(givenNumber: Int)
 }

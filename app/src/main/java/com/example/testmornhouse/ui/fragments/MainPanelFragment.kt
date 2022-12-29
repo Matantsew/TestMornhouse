@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.testmornhouse.IMainActivity
+import com.example.testmornhouse.ui.IMainActivity
 import com.example.testmornhouse.databinding.FragmentMainPanelBinding
 import kotlin.random.Random
 

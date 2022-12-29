@@ -1,9 +1,10 @@
-package com.example.testmornhouse
+package com.example.testmornhouse.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.testmornhouse.R
 import com.example.testmornhouse.databinding.ActivityMainBinding
 import com.example.testmornhouse.ui.fragments.FactAboutNumberFragment
 import com.example.testmornhouse.ui.fragments.FactAboutNumberFragment.Companion.DESCRIPTION_ARG
@@ -33,11 +34,11 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         }
     }
 
-    private fun initViewModel(){
+    private fun initViewModel() {
         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        mainViewModel.numberFactsHistoryList.observe(this) {
+        mainViewModel.obtainedNumberFact.observe(this) {
 
-            CoroutineScope(Dispatchers.Main).launch{
+            CoroutineScope(Dispatchers.Main).launch {
                 val factAboutNumberFragment = FactAboutNumberFragment.newInstance()
 
                 val givenNumber = it.number
