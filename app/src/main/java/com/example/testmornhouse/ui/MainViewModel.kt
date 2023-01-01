@@ -19,7 +19,7 @@ class MainViewModel @Inject constructor(
 
     var obtainedNumberFact: LiveData<NumberFact> = obtainedNumberFactMutable
 
-    fun getFactAboutNumber(givenNumber: Int) {
+    fun obtainFactAboutNumber(givenNumber: Int) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val obtainedFact = async {
@@ -33,5 +33,9 @@ class MainViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun obtainFactAboutNumberHistoryList(): List<NumberFact> {
+        return numbersRepository.getNumberFactHistoryList()
     }
 }

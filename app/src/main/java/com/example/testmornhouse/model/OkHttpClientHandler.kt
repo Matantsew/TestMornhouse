@@ -11,7 +11,7 @@ class OkHttpClientHandler @Inject constructor() {
 
     var endpointString = StringBuffer()
 
-    fun getRequest() : String? {
+    fun getRequest() : String {
 
         val request = Request.Builder()
             .url(Api.BASE_URL + endpointString)
@@ -20,7 +20,7 @@ class OkHttpClientHandler @Inject constructor() {
         return client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
-            response.body?.string()
+            response.body?.string().toString()
         }
     }
 

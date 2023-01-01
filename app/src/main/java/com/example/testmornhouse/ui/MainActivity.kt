@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.testmornhouse.R
 import com.example.testmornhouse.databinding.ActivityMainBinding
+import com.example.testmornhouse.model.NumberFact
 import com.example.testmornhouse.ui.fragments.FactAboutNumberFragment
 import com.example.testmornhouse.ui.fragments.FactAboutNumberFragment.Companion.DESCRIPTION_ARG
 import com.example.testmornhouse.ui.fragments.FactAboutNumberFragment.Companion.NUMBER_ARG
@@ -30,7 +31,8 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
-            init()
+            val mainPanelFragment = MainPanelFragment.newInstance()
+            commitFragment(mainPanelFragment, null, "null", false)
         }
     }
 
@@ -39,23 +41,22 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         mainViewModel.obtainedNumberFact.observe(this) {
 
             CoroutineScope(Dispatchers.Main).launch {
-                val factAboutNumberFragment = FactAboutNumberFragment.newInstance()
-
-                val givenNumber = it.number
-                val response = it.fact
-
-                val bundle = Bundle()
-                bundle.putString(NUMBER_ARG, givenNumber.toString())
-                bundle.putString(DESCRIPTION_ARG, response)
-
-                commitFragment(factAboutNumberFragment, bundle, "Fact", true)
+                openNumberFactFragment(it)
             }
         }
     }
 
-    private fun init() {
-        val mainPanelFragment = MainPanelFragment.newInstance()
-        commitFragment(mainPanelFragment, null, "null", false)
+    private fun openNumberFactFragment(numberFact: NumberFact) {
+        val factAboutNumberFragment = FactAboutNumberFragment.newInstance()
+
+        val givenNumber = numberFact.number
+        val response = numberFact.fact
+
+        val bundle = Bundle()
+        bundle.putString(NUMBER_ARG, givenNumber.toString())
+        bundle.putString(DESCRIPTION_ARG, response)
+
+        commitFragment(factAboutNumberFragment, bundle, "Fact", true)
     }
 
     private fun commitFragment(fragment: Fragment, bundle: Bundle?, tag: String, addToBackStack: Boolean) {
@@ -73,6 +74,6 @@ class MainActivity : AppCompatActivity(), IMainActivity {
     }
 
     override fun getFactAboutGivenNumber(givenNumber: Int) {
-        mainViewModel.getFactAboutNumber(givenNumber)
+        mainViewModel.obtainFactAboutNumber(givenNumber)
     }
 }
