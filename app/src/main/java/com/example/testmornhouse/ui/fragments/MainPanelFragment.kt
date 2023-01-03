@@ -8,18 +8,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.testmornhouse.R
 import com.example.testmornhouse.databinding.FragmentMainPanelBinding
-import com.example.testmornhouse.model.NumberFact
 import com.example.testmornhouse.ui.IMainActivity
 import com.example.testmornhouse.ui.MainViewModel
 import com.example.testmornhouse.ui.adapters.FactsHistoryAdapter
 import kotlin.random.Random
 
-
-class MainPanelFragment : Fragment(), View.OnClickListener {
+class MainPanelFragment :
+    Fragment(),
+    View.OnClickListener,
+    FactsHistoryAdapter.OnFactItemClickListener {
 
     companion object {
 
@@ -49,7 +49,7 @@ class MainPanelFragment : Fragment(), View.OnClickListener {
 
         binding = FragmentMainPanelBinding.inflate(inflater)
 
-        factsHistoryAdapter = FactsHistoryAdapter()
+        factsHistoryAdapter = FactsHistoryAdapter(this)
 
         with(binding) {
 
@@ -100,5 +100,9 @@ class MainPanelFragment : Fragment(), View.OnClickListener {
                 mIMainActivity.getFactAboutGivenNumber(randomNumber)
             }
         }
+    }
+
+    override fun onFactItemClick() {
+
     }
 }

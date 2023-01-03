@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -7,46 +7,62 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.MainPanelFragment">
 
-    <EditText
-        android:id="@+id/edit_txt_number"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/top_linear_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_enter_number"
-        android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@id/btn_get_num_fact"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_get_num_fact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_btn_get_num_fact"
-        app:layout_constraintBottom_toTopOf="@id/btn_get_random_num_fact"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_txt_number"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_get_random_num_fact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_btn_get_random_num_fact"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/rv_history_of_facts"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_get_num_fact"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/edit_txt_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_enter_number"
+            android:inputType="number"
+            app:layout_constraintBottom_toTopOf="@id/btn_get_num_fact"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_get_num_fact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_btn_get_num_fact"
+            app:layout_constraintBottom_toTopOf="@id/btn_get_random_num_fact"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_txt_number" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_get_random_num_fact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_btn_get_random_num_fact"
+            app:layout_constraintBottom_toTopOf="@id/rv_history_of_facts"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_get_num_fact" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_history_of_facts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/item_saved_fact_in_history"
+        android:layout_below="@+id/top_linear_layout"
+        android:layout_alignParentBottom="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_get_random_num_fact"/>
+        app:layout_constraintTop_toBottomOf="@id/top_linear_layout"
+        tools:listitem="@layout/item_saved_fact_in_history" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

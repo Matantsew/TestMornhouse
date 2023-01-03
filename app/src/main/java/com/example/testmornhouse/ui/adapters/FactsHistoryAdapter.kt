@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.testmornhouse.R
 import com.example.testmornhouse.model.NumberFact
 
-class FactsHistoryAdapter(
+class FactsHistoryAdapter(private val onFactItemClickListener: OnFactItemClickListener,
     diffCallback: DiffUtil.ItemCallback<NumberFact> = DiffCallback) :
     ListAdapter<NumberFact, FactsHistoryAdapter.FactViewHolder>(diffCallback) {
 
-    class FactViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    class FactViewHolder(view: View, private val onFactItemClickListener: OnFactItemClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
         val tVNumber: TextView
         val tVFact: TextView
@@ -28,7 +28,7 @@ class FactsHistoryAdapter(
         }
 
         override fun onClick(view: View?) {
-            // TODO: set click
+            onFactItemClickListener.onFactItemClick()
         }
     }
 
@@ -38,7 +38,7 @@ class FactsHistoryAdapter(
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.item_saved_fact_in_history, viewGroup, false)
 
-        return FactViewHolder(view)
+        return FactViewHolder(view, onFactItemClickListener)
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -50,6 +50,9 @@ class FactsHistoryAdapter(
         viewHolder.tVFact.text = getItem(position).fact
     }
 
+    interface OnFactItemClickListener {
+        fun onFactItemClick()
+    }
 }
 
 private object DiffCallback : DiffUtil.ItemCallback<NumberFact>() {
