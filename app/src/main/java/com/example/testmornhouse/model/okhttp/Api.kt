@@ -1,4 +1,4 @@
-package com.example.testmornhouse.model
+package com.example.testmornhouse.model.okhttp
 
 object Api {
 

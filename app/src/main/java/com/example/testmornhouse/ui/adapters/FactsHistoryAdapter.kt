@@ -23,7 +23,7 @@ class FactsHistoryAdapter(
         val tVFact: TextView
 
         init {
-            // Define click listener for the ViewHolder's View
+
             tVNumber = view.findViewById(R.id.tv_number)
             tVFact = view.findViewById(R.id.tv_fact)
 
@@ -35,20 +35,16 @@ class FactsHistoryAdapter(
         }
     }
 
-    // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): FactViewHolder {
-        // Create a new view, which defines the UI of the list item
+
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.item_saved_fact_in_history, viewGroup, false)
 
         return FactViewHolder(view, onFactItemClickListener)
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: FactViewHolder, position: Int) {
 
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
         viewHolder.tVNumber.text = getItem(position).number.toString()
         viewHolder.tVFact.text = getItem(position).fact
     }
@@ -60,7 +56,7 @@ class FactsHistoryAdapter(
 
 private object DiffCallback : DiffUtil.ItemCallback<NumberFact>() {
     override fun areItemsTheSame(oldItem: NumberFact, newItem: NumberFact): Boolean {
-        return oldItem.hashCode() == newItem.hashCode() // TODO: Consider other comparison option
+        return oldItem.hashCode() == newItem.hashCode()
     }
 
     override fun areContentsTheSame(oldItem: NumberFact, newItem: NumberFact): Boolean {

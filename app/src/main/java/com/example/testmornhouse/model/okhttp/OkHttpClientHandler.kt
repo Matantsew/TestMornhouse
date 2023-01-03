@@ -1,4 +1,4 @@
-package com.example.testmornhouse.model
+package com.example.testmornhouse.model.okhttp
 
 import okhttp3.OkHttpClient
 import okhttp3.Request

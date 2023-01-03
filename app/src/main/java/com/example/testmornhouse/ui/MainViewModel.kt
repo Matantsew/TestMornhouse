@@ -8,6 +8,7 @@ import com.example.testmornhouse.model.NumberFact
 import com.example.testmornhouse.model.NumbersRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,12 +28,22 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val obtainedFact = async {
-                    numbersRepository.getRemoteNumberFact(givenNumber)
+                    try {
+                        numbersRepository.getRemoteNumberFact(givenNumber)
+                    }
+                    catch (e: IOException){
+                        e.printStackTrace()
+                        cancel()
+                    }
                 }
 
-                val newNumberFact = NumberFact(givenNumber, obtainedFact.await())
+                val result = obtainedFact.await()
 
-                withContext(Dispatchers.Main){
+                if(result !is String)return@withContext
+
+                val newNumberFact = NumberFact(givenNumber, result)
+
+                withContext(Dispatchers.Main) {
                     numberFactMutable.value = newNumberFact
                 }
             }

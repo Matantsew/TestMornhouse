@@ -1,5 +1,6 @@
 package com.example.testmornhouse.model
 
+import com.example.testmornhouse.model.okhttp.OkHttpClientHandler
 import com.example.testmornhouse.model.room.NumberFactDao
 import com.example.testmornhouse.model.room.NumberFactDatabase
 import com.example.testmornhouse.model.room.NumberFactEntity
@@ -22,7 +23,7 @@ class NumbersRepository @Inject constructor(
     }
 
     fun getNumberFactHistoryList() : List<NumberFact> {
-        return dao.getAll().map { NumberFact(it.number, it.fact) }
+        return dao.getAll().map { NumberFact(it.number, it.fact) }.asReversed()
     }
 
     fun checkParametersInDatabaseExist(number: Int, fact: String): Boolean {
