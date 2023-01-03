@@ -10,11 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.testmornhouse.R
 import com.example.testmornhouse.model.NumberFact
 
-class FactsHistoryAdapter(private val onFactItemClickListener: OnFactItemClickListener,
-    diffCallback: DiffUtil.ItemCallback<NumberFact> = DiffCallback) :
-    ListAdapter<NumberFact, FactsHistoryAdapter.FactViewHolder>(diffCallback) {
+class FactsHistoryAdapter(
+    private val onFactItemClickListener: OnFactItemClickListener,
+    diffCallback: DiffUtil.ItemCallback<NumberFact> = DiffCallback)
+    : ListAdapter<NumberFact, FactsHistoryAdapter.FactViewHolder>(diffCallback) {
 
-    class FactViewHolder(view: View, private val onFactItemClickListener: OnFactItemClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    class FactViewHolder(
+        view: View,
+        private val onFactItemClickListener: OnFactItemClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
         val tVNumber: TextView
         val tVFact: TextView
@@ -28,7 +31,7 @@ class FactsHistoryAdapter(private val onFactItemClickListener: OnFactItemClickLi
         }
 
         override fun onClick(view: View?) {
-            onFactItemClickListener.onFactItemClick()
+            onFactItemClickListener.onFactItemClick(NumberFact(tVNumber.text.toString().toInt(), tVFact.text.toString()))
         }
     }
 
@@ -51,7 +54,7 @@ class FactsHistoryAdapter(private val onFactItemClickListener: OnFactItemClickLi
     }
 
     interface OnFactItemClickListener {
-        fun onFactItemClick()
+        fun onFactItemClick(selectedNumberFact: NumberFact)
     }
 }
 

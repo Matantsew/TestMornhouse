@@ -1,5 +1,7 @@
 package com.example.testmornhouse.ui
 
+import com.example.testmornhouse.model.NumberFact
+
 interface IMainActivity {
-    fun getFactAboutGivenNumber(givenNumber: Int)
+    fun onFactAboutGivenNumberSelected(selectedNumberFact: NumberFact)
 }

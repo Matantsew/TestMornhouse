@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.testmornhouse.R
 import com.example.testmornhouse.databinding.FragmentMainPanelBinding
+import com.example.testmornhouse.model.NumberFact
 import com.example.testmornhouse.ui.IMainActivity
 import com.example.testmornhouse.ui.MainViewModel
 import com.example.testmornhouse.ui.adapters.FactsHistoryAdapter
@@ -92,17 +93,17 @@ class MainPanelFragment :
                     }
 
                     val givenNumber = this.toInt()
-                    mIMainActivity.getFactAboutGivenNumber(givenNumber)
+                    mainViewModel.obtainFactAboutNumber(givenNumber)
                 }
             }
             binding.btnGetRandomNumFact.id -> {
                 val randomNumber = Random.nextInt(0, 5000)
-                mIMainActivity.getFactAboutGivenNumber(randomNumber)
+                mainViewModel.obtainFactAboutNumber(randomNumber)
             }
         }
     }
 
-    override fun onFactItemClick() {
-
+    override fun onFactItemClick(selectedNumberFact: NumberFact) {
+        mIMainActivity.onFactAboutGivenNumberSelected(selectedNumberFact)
     }
 }

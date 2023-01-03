@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         transaction.commit()
     }
 
-    override fun getFactAboutGivenNumber(givenNumber: Int) {
-        mainViewModel.obtainFactAboutNumber(givenNumber)
+    override fun onFactAboutGivenNumberSelected(selectedNumberFact: NumberFact) {
+        openNumberFactFragment(selectedNumberFact)
     }
 }
