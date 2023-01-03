@@ -4,4 +4,5 @@
     <string name="txt_btn_get_random_num_fact">Get fact about random number</string>
     <string name="hint_enter_number">Enter a number</string>
     <string name="txt_description">Description:</string>
+    <string name="warning_no_number_entered">No number entered!</string>
 </resources>

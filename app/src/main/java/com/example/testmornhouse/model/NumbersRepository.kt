@@ -1,31 +1,40 @@
 package com.example.testmornhouse.model
 
+import com.example.testmornhouse.model.room.NumberFactDao
 import com.example.testmornhouse.model.room.NumberFactDatabase
 import com.example.testmornhouse.model.room.NumberFactEntity
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class NumbersRepository @Inject constructor(
     private val okHttpClientHandler: OkHttpClientHandler,
-    private val numberFactDatabase: NumberFactDatabase
+    numberFactDatabase: NumberFactDatabase
     ) {
 
+    private val dao: NumberFactDao = numberFactDatabase.numberFactDao()
+
     fun getRemoteNumberFact(givenNumber: Int): String {
+        okHttpClientHandler.endpointString = StringBuffer()
         okHttpClientHandler.endpointString.append(givenNumber.toString())
 
         return okHttpClientHandler.getRequest()
     }
 
     fun getNumberFactHistoryList() : List<NumberFact> {
-        val dao = numberFactDatabase.numberFactDao()
-
         return dao.getAll().map { NumberFact(it.number, it.fact) }
     }
 
-    fun saveFactNumberToHistoryList(numberFact: NumberFact) {
-        val dao = numberFactDatabase.numberFactDao()
+    fun checkParametersInDatabaseExist(number: Int, fact: String): Boolean {
+        val obtained = dao.findByNumberAndFact(number, fact)
+        return obtained != null
+    }
 
-        val entity = NumberFactEntity(numberFact.number, numberFact.number, numberFact.fact)
+    fun saveFactNumberToHistoryListIfNotExists(numberFact: NumberFact) {
 
-        dao.insert(entity)
+        if(dao.findByNumberAndFact(numberFact.number, numberFact.fact) == null) {
+            val entity = NumberFactEntity(numberFact.number, numberFact.fact)
+            dao.insert(entity)
+        }
     }
 }

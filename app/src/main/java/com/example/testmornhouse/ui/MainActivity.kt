@@ -7,19 +7,26 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.testmornhouse.R
 import com.example.testmornhouse.databinding.ActivityMainBinding
 import com.example.testmornhouse.model.NumberFact
+import com.example.testmornhouse.model.NumbersRepository
 import com.example.testmornhouse.ui.fragments.FactAboutNumberFragment
 import com.example.testmornhouse.ui.fragments.FactAboutNumberFragment.Companion.DESCRIPTION_ARG
 import com.example.testmornhouse.ui.fragments.FactAboutNumberFragment.Companion.NUMBER_ARG
 import com.example.testmornhouse.ui.fragments.MainPanelFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), IMainActivity {
 
+    @Inject
+    lateinit var repository: NumbersRepository
+
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var mainViewModel: MainViewModel
+
+    private lateinit var mainPanelFragment: MainPanelFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,17 +38,24 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
-            val mainPanelFragment = MainPanelFragment.newInstance()
-            commitFragment(mainPanelFragment, null, "null", false)
+            mainPanelFragment = MainPanelFragment.newInstance()
+            commitFragment(mainPanelFragment, null, MainPanelFragment.TAG, false)
         }
     }
 
     private fun initViewModel() {
         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        mainViewModel.obtainedNumberFact.observe(this) {
+        mainViewModel.numberFact.observe(this) {
 
-            CoroutineScope(Dispatchers.Main).launch {
-                openNumberFactFragment(it)
+            CoroutineScope(Dispatchers.IO).launch {
+
+                if(!repository.checkParametersInDatabaseExist(it.number, it.fact)) {
+                    repository.saveFactNumberToHistoryListIfNotExists(it)
+                }
+
+                withContext(Dispatchers.Main) {
+                    openNumberFactFragment(it)
+                }
             }
         }
     }
@@ -56,7 +70,7 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         bundle.putString(NUMBER_ARG, givenNumber.toString())
         bundle.putString(DESCRIPTION_ARG, response)
 
-        commitFragment(factAboutNumberFragment, bundle, "Fact", true)
+        commitFragment(factAboutNumberFragment, bundle, FactAboutNumberFragment.TAG, true)
     }
 
     private fun commitFragment(fragment: Fragment, bundle: Bundle?, tag: String, addToBackStack: Boolean) {

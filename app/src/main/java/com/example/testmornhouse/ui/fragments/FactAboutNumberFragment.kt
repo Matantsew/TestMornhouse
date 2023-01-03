@@ -11,6 +11,8 @@ class FactAboutNumberFragment : Fragment() {
 
     companion object {
 
+        const val TAG = "FactAboutNumberFragment"
+
         const val NUMBER_ARG = "NUMBER"
         const val DESCRIPTION_ARG = "DESCRIPTION"
 

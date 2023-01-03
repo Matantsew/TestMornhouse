@@ -53,6 +53,8 @@ dependencies {
     def test_junit = "1.1.4"
     def espresso_core = "3.5.0"
 
+    def fragment_ktx = "1.5.5"
+
     def okhttp3 = "4.9.3"
 
     def dagger_hilt = "2.44"
@@ -68,6 +70,8 @@ dependencies {
     testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test.ext:junit:$test_junit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core"
+
+    implementation "androidx.fragment:fragment-ktx:$fragment_ktx"
 
     // okhttp3
     implementation "com.squareup.okhttp3:okhttp:$okhttp3"

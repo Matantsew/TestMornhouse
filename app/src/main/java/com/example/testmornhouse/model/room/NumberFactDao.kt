@@ -10,6 +10,10 @@ interface NumberFactDao {
     @Query("SELECT * FROM numberFactEntity")
     fun getAll(): List<NumberFactEntity>
 
+    @Query("SELECT * FROM numberFactEntity WHERE number LIKE :number AND " +
+            "fact LIKE :fact LIMIT 1")
+    fun findByNumberAndFact(number: Int, fact: String): NumberFactEntity?
+
     @Insert
     fun insert(numberFactEntity: NumberFactEntity)
 }

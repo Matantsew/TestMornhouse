@@ -15,9 +15,13 @@ class MainViewModel @Inject constructor(
     private val numbersRepository: NumbersRepository
     ) : ViewModel() {
 
-    private var obtainedNumberFactMutable = MutableLiveData<NumberFact>()
+    private var factAboutNumberHistoryListMutable = MutableLiveData<List<NumberFact>>()
 
-    var obtainedNumberFact: LiveData<NumberFact> = obtainedNumberFactMutable
+    private var numberFactMutable = MutableLiveData<NumberFact>()
+
+    var numberFact: LiveData<NumberFact> = numberFactMutable
+
+    var factAboutNumberHistoryList: LiveData<List<NumberFact>> = factAboutNumberHistoryListMutable
 
     fun obtainFactAboutNumber(givenNumber: Int) {
         viewModelScope.launch {
@@ -29,13 +33,28 @@ class MainViewModel @Inject constructor(
                 val newNumberFact = NumberFact(givenNumber, obtainedFact.await())
 
                 withContext(Dispatchers.Main){
-                    obtainedNumberFactMutable.value = newNumberFact
+                    numberFactMutable.value = newNumberFact
                 }
             }
         }
     }
 
-    fun obtainFactAboutNumberHistoryList(): List<NumberFact> {
-        return numbersRepository.getNumberFactHistoryList()
+    fun updateFactAboutNumberHistoryList() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val obtainedHistory = async {
+                    numbersRepository.getNumberFactHistoryList()
+                }
+
+                withContext(Dispatchers.Main) {
+                    factAboutNumberHistoryListMutable.value = obtainedHistory.await()
+                }
+            }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelScope.cancel()
     }
 }
